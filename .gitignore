@@ -9,3 +9,9 @@ node_modules/
 # IDEs
 .vscode/
 .idea/
+
+
+# H2 database files
+/backend/data/
+*.mv.db
+*.trace.db
