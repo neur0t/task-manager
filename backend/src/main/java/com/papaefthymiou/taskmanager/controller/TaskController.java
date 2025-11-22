@@ -1,7 +1,7 @@
-package controller;
+package com.papaefthymiou.taskmanager.controller;
 
-import model.Task;
-import service.TaskService;
+import com.papaefthymiou.taskmanager.model.Task;
+import com.papaefthymiou.taskmanager.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package service;
+package com.papaefthymiou.taskmanager.service;
 
-import model.Task;
-import TaskRepository.TaskRepository;
+import com.papaefthymiou.taskmanager.model.Task;
+import com.papaefthymiou.taskmanager.TaskRepository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

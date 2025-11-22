@@ -1,4 +1,4 @@
-package model;
+package com.papaefthymiou.taskmanager.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
