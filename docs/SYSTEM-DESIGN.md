@@ -10,7 +10,7 @@ The system follows a **3-tier architecture**:
 
 - **Presentation Layer** → Angular/React UI  
 - **Backend Layer** → Java + Spring Boot  
-- **Persistence Layer** → PostgreSQL  
+- **Persistence Layer** → PostgreSQL (In our case H2)  
 
 ```mermaid
 flowchart TB
