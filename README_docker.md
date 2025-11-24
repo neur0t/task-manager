@@ -10,7 +10,7 @@ disabled for production builds) - **Nginx** serving the frontend -
 ## Features
 
 -   Create, read, update, delete tasks
--   Basic Authentication (admin / 1234)
+-   Basic Authentication (admin / 12345)
 -   H2 embedded database
 -   Frontend served via Nginx
 -   Full Dockerized setup
@@ -38,7 +38,7 @@ http://localhost:4200
 http://localhost:8080/tasks
 
 Basic Auth: - **username**: admin\
-- **password**: 1234
+- **password**: 12345
 
 ## Stopping the application
 
