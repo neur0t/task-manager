@@ -1,211 +1,187 @@
-\# API Specification
-
-
+# API Specification
 
 This document describes the REST API exposed by the Task Management backend.
 
+The API uses **Basic Authentication**.
+
+Example header (Base for `admin:12345`):
 
 
 ---
 
+# 1. Authentication
 
+## 1.1 Basic Authentication
 
-\## Base URL
+Clients must include this header on every request:
 
+```
+Authorization: Basic <base64(username:password)>
+```
 
+Invalid credentials return:
 
-\# 1. Authentication Endpoints
+- **401 Unauthorized**
 
+---
 
+# 2. Task Endpoints
 
-\## POST `/auth/login`
+Base URL:
 
+```
+http://localhost:8080
+```
 
+All Task endpoints require Basic Auth.
 
-Authenticate a user with credentials and receive a JWT token.
+---
 
+## 2.1 GET `/tasks`
 
+Retrieve all tasks.
 
-\### Request Body
+### Response Example
 
 ```json
-
-{
-
-	"username": "john.doe",
-
-	"password": "secret123"
-
-}
-
-Responses
-
-Status	Description
-
-200	Authentication successful
-
-401	Invalid credentials
-
-
-
-Success Response Example
-
-
-{
-
-	"token": "<jwt-token>",
-
-	"expiresIn": 3600
-
-}
-
-2. Task Endpoints
-
-GET /tasks
-
-Retrieve all tasks for the authenticated user.
-
-
-
-
-
-Authorization: Bearer <jwt>
-
-Response
-
-json
-
-
 [
-
-	{
-
-		"id": 1,
-
-	 	"title": "Buy groceries",
-
-	 	"description": "Milk, Bread, Coffee",
-
-		"status": "PENDING",
-
-  		"createdAt": "2025-01-01T12:30:00Z"
-
-	}
-
+  {
+    "id": 1,
+    "title": "Buy groceries",
+    "description": "Milk, Bread, Coffee",
+    "completed": false
+  }
 ]
+```
 
-GET /tasks/{id}
+---
 
-Retrieve a task by its ID.
+## 2.2 GET `/tasks/{id}`
 
+Retrieve a task by ID.
 
+### Example Response
 
-Example Response
-
-
-
+```json
 {
-
-	"id": 1,
-
-	"title": "Buy groceries",
-
-	"description": "Milk, Bread, Coffee",
-
-	"status": "PENDING"
-
+  "id": 1,
+  "title": "Buy groceries",
+  "description": "Milk, Bread, Coffee",
+  "completed": false
 }
+```
 
-POST /tasks
+---
+
+## 2.3 POST `/tasks`
 
 Create a new task.
 
+### Request Body
 
-
-Request Body
-
-
+```json
 {
-
-	"title": "Study for exam",
-
-	"description": "Operating Systems chapter",
-
-	"status": "PENDING"
-
+  "title": "Study for exam",
+  "description": "Operating systems",
+  "completed": false
 }
+```
 
-Response
+### Response
 
-
+```
 201 Created
+```
 
-PUT /tasks/{id}
+### Example Response
+
+```json
+{
+  "id": 5,
+  "title": "Study for exam",
+  "description": "Operating systems",
+  "completed": false
+}
+```
+
+---
+
+## 2.4 PUT `/tasks/{id}`
 
 Update an existing task.
 
+### Example Request
 
-
-Example Request
-
+```json
 {
-
-&nbsp; "title": "Study for OS exam",
-
-&nbsp; "description": "Paging, Segmentation, Virtual Memory",
-
-&nbsp; "status": "IN\_PROGRESS"
-
+  "title": "Study for OS exam",
+  "description": "Paging, Segmentation, Virtual Memory",
+  "completed": true
 }
+```
 
-3. Data Model
+### Example Response
 
-Task Object
-
-
+```json
 {
-
-	"id": 1,
-
-	"title": "string",
-
-	"description": "string",
-
-	"status": "PENDING | IN_PROGRESS | DONE",
-
-	"createdAt": "ISO date"
-
+  "id": 5,
+  "title": "Study for OS exam",
+  "description": "Paging, Segmentation, Virtual Memory",
+  "completed": true
 }
+```
 
-User Object
+---
 
+## 2.5 DELETE `/tasks/{id}`
 
+Delete a task.
+
+### Response
+
+```
+204 No Content
+```
+
+---
+
+# 3. Data Model
+
+## Task Object
+
+```json
 {
-
-	"id": 10,
-
-	"username": "string",
-
-	"passwordHash": "string"
-
+  "id": 1,
+  "title": "string",
+  "description": "string",
+  "completed": true
 }
+```
 
+---
 
+# 4. Error Handling Format
 
-4. Error Handling Format
+Every error returns a JSON object in this format:
 
-All API errors follow a consistent structure.
-
-
-Example:
-
+```json
 {
-
-&nbsp; "timestamp": "2025-01-01T12:00:00Z",
-
-&nbsp; "message": "Task not found",
-
-&nbsp; "status": 404
-
+  "timestamp": "2025-01-01T12:00:00Z",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/tasks/999"
 }
+```
 
+---
+
+# 5. Authentication Summary
+
+| Feature       | Value                     |
+|---------------|---------------------------|
+| Scheme        | Basic Authentication      |
+| Username      | `admin`                   |
+| Password      | `12345`                    |
+| Required For  | All `/tasks/**` endpoints |
+
+Clients must send credentials on every request. No JWT, no cookies.
