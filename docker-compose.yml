@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: taskmanager-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - tasknet
+
+  frontend:
+    build:
+      context: ./frontend/taskmanager-ui
+    container_name: taskmanager-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - tasknet
+
+networks:
+  tasknet:
+    driver: bridge
